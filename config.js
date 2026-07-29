@@ -9,7 +9,8 @@ administration = "1485230165830402168"
 human_resources = "1487518138974208142"
 officer = "1487394979478503565"
 head_moderator = "1477270727899222138"
-moderator = "1477270716050178169" 
+moderator = "1477270716050178169"
+division_administrator= "1485370389046759455"
 // Discord Information
 serverID = "1457749135187906665"
 // Channels IDs
