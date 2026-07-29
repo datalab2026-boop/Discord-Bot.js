@@ -31,3 +31,4 @@ NewbieID = ""
 // Extra External Tokens
 render_restart = os.environ.get("Restart Token")
 google_sheets = os.environ.get("Google Sheets Token")
+http_token = os.environ.get("Http Token")
