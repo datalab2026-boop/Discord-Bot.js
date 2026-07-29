@@ -27,7 +27,7 @@ officer_members = ""
 enlisted_members = ""
 // Roblox Information 
 groupID = ""
-NewbieID = ""
+newbieID = ""
 // Extra External Tokens
 render_restart = os.environ.get("Restart Token")
 google_sheets = os.environ.get("Google Sheets Token")
