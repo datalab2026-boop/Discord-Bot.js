@@ -2,8 +2,8 @@ import os
 // Bot Information
 name = "SARU Bot"
 description = ""
-bot_token = "os.environ.get("Discord Token")"
-clientID = "os.environ.get("Client ID")"
+bot_token = os.environ.get("Discord Token")
+clientID = os.environ.get("Client ID")
 // Permmisions Information 
 administration = "1485230165830402168"
 human_resources = "1487518138974208142"
@@ -29,5 +29,5 @@ enlisted_members = ""
 groupID = ""
 NewbieID = ""
 // Extra External Tokens
-render_restart = "os.environ.get("Restart Token")"
-google_sheets = "os.environ.get("Google Sheets Token")"
+render_restart = os.environ.get("Restart Token")
+google_sheets = os.environ.get("Google Sheets Token")
