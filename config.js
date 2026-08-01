@@ -1,4 +1,3 @@
-import os
 // Bot Information,
 name = "SARU Bot",
 description = "",
