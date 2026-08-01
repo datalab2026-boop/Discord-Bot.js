@@ -1,27 +1,21 @@
 const { Client, GatewayIntentBits } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
+const config = require('./config.js'); // Подключаем конфиг прямо здесь
 
-/**
- * Создает и настраивает клиент Discord, а также загружает модули.
- * @param {Object} config - Объект конфигурации (config.js)
- * @returns {Client} - Инициализированный клиент Discord
- */
-function createDiscordClient(config) {
-    // Создаем клиент с базовыми интентами (можно расширить при необходимости)
+function createDiscordClient() {
     const client = new Client({
         intents: [
             GatewayIntentBits.Guilds,
-            GatewayIntentBits.GuildVoiceStates // Нужно для работы с голосовыми каналами
+            GatewayIntentBits.GuildVoiceStates,
+            GatewayIntentBits.GuildMembers, // Добавил интенты, скорее всего они понадобятся для участников
+            GatewayIntentBits.GuildMessages
         ]
     });
 
-    /**
-     * Функция для динамической загрузки обработчиков/модулей
-     * Ожидает, что модули лежат в папке /src/modules или аналогичной
-     */
     async function loadModules() {
-        const modulesPath = path.join(__dirname, '../modules'); // Путь к папке с модулями
+        // Убрали '..' так как модули лежат на том же уровне или в текущей папке
+        const modulesPath = path.join(__dirname, 'modules'); 
         
         if (!fs.existsSync(modulesPath)) {
             console.warn('[Connection Warning]: Папка с модулями не найдена, пропускаем автозагрузку.');
@@ -35,7 +29,6 @@ function createDiscordClient(config) {
                 const filePath = path.join(modulesPath, file);
                 const module = require(filePath);
                 
-                // Если модуль экспортирует функцию инициализации, вызываем ее
                 if (typeof module === 'function') {
                     await module(client, config);
                 } else if (module && typeof module.init === 'function') {
@@ -49,15 +42,11 @@ function createDiscordClient(config) {
         }
     }
 
-    // Событие успешного запуска бота
     client.once('ready', async () => {
-        console.log(`[Bot Ready]: Авторизован как ${client.user.tag} (ID: ${config.clientID})`);
-        
-        // Загружаем файлы/модули после старта бота
+        console.log(`[Bot Ready]: Авторизован как ${client.user.tag}`);
         await loadModules();
     });
 
-    // Авторизация бота по токену из конфига
     if (!config.bot_token) {
         throw new Error('Критическая ошибка: bot_token отсутствует в конфигурационном файле!');
     }
@@ -69,5 +58,7 @@ function createDiscordClient(config) {
     return client;
 }
 
-module.exports = { createDiscordClient };
+// Запускаем функцию сразу при импорте файла
+createDiscordClient();
 
+module.exports = { createDiscordClient };
